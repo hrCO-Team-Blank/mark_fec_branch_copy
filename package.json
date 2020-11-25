@@ -6,8 +6,11 @@
   "scripts": {
     "test": "jest --watch",
     "env": "npm install --save-dev @babel/preset-env",
-    "start": "cd server/ && nodemon server.js",
-    "build": "set NODE_ENV=dev && webpack --watch --mode=development"
+    "start": "cd server && node server.js",
+    "server": "cd server/ && nodemon server.js",
+    "build:watch": "set NODE_ENV=dev && webpack --watch --mode=development",
+    "build": "webpack",
+    "build:watch2": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -24,11 +27,13 @@
     "express": "^4.17.1",
     "glyphicons": "^0.2.0",
     "nodemon": "^2.0.6",
+    "path": "^0.12.7",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-native": "^0.63.3",
     "react-native-web": "^0.14.8",
+    "react-router-dom": "^5.2.0",
     "react-star-ratings": "^2.3.0"
   },
   "devDependencies": {

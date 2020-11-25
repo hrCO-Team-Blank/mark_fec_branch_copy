@@ -9,8 +9,9 @@ import StarRatings from 'react-star-ratings';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 class ProductOverview extends React.Component {
-    constructor() {
-        super();
+    // CC - added props arguments to constructor
+    constructor(props) {
+        super(props);
         this.state = {
             MAWcurrentProduct: 5,
             MAWproductData: {},
@@ -18,13 +19,18 @@ class ProductOverview extends React.Component {
             MAWavgRating: -1,
             styleIndex: 0
         };
-        this.handleStyleIndexChange.bind(this);
-        this.handleProductChange.bind(this);
+        // CC - corrected bindings & added one for getProductData
+        this.handleStyleIndexChange = this.handleStyleIndexChange.bind(this);
+        this.handleProductChange = this.handleProductChange.bind(this);
+        this.getProductData = this.getProductData.bind(this);
     }
     componentDidMount() {
-        this.getProductData(this.state.MAWcurrentProduct);
+        // CC - added code below to dynamically grab id and commented out previous code
+        const id = this.props.match.params.id || '25';
+        this.getProductData(id);
+        /*this.getProductData(this.state.MAWcurrentProduct);*/
     }
-
+    // CC - I'm not sure this much promise chaining is necessary
     getProductData(id) {
         fetch(`http://52.26.193.201:3000/products/${id}`)
             .then(data => {
@@ -95,12 +101,15 @@ class ProductOverview extends React.Component {
         return (
             <div>
                 <Container className='mb-4'>
-                    <Col xs={{ span: 12 }} className=""><Header MAWproductData={this.state.MAWproductData} handleProductChange={this.handleProductChange.bind(this)}/></Col>
+                    <Col sm={{ span: 12 }} className="">
+                        <Header MAWproductData={this.state.MAWproductData} handleProductChange={this.handleProductChange}
+                        getProductData={this.getProductData}/>
+                    </Col>
                 </Container>
                 <Container>
                     <Row className=''>
-                        <Col className='' xs={{span: 7}}><ProductPictures MAWstylesData={this.state.MAWstylesData} styleIndex={this.state.styleIndex}/></Col>
-                        <Col xs={{ span: 5 }} className=""><ProductDetails MAWproductData={this.state.MAWproductData} MAWstylesData={this.state.MAWstylesData} MAWavgRating={this.state.MAWavgRating} handleStyleIndexChange={this.handleStyleIndexChange.bind(this)}/></Col>
+                        <Col className=''><ProductPictures MAWstylesData={this.state.MAWstylesData} styleIndex={this.state.styleIndex}/></Col>
+                        <Col sm={{ span: 5, offset: 0 }} className=""><ProductDetails MAWproductData={this.state.MAWproductData} MAWstylesData={this.state.MAWstylesData} MAWavgRating={this.state.MAWavgRating} handleStyleIndexChange={this.handleStyleIndexChange.bind(this)}/></Col>
                     </Row>
                     <Row className='mt-4'>
                         <Col className=''><ProductParagraph MAWproductSlogan={this.state.MAWproductData.slogan} MAWproductDescription={this.state.MAWproductData.description}/></Col>

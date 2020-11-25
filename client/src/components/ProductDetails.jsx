@@ -53,25 +53,12 @@ class ProductDetails extends React.Component {
     if (this.props.MAWproductData === undefined || this.props.MAWavgRating === undefined) {
       return <div>Loading...</div>
     } else {
-      let original_price, sale_price;
-      if (this.props.MAWstylesData.results[this.state.styleIndex].sale_price > 0) {
-        original_price = <div style={{textDecorationLine: 'line-through'}}>${this.props.MAWstylesData.results[this.state.styleIndex].original_price} </div>
-        sale_price = <div className='ml-3' style={{color: 'red'}}> ${this.props.MAWstylesData.results[this.state.styleIndex].sale_price}</div>
-      } else {
-        original_price = <div>${this.props.MAWstylesData.results[this.state.styleIndex].original_price}</div>
-        sale_price = <div></div>
-      }
       return (
         <div>
           <StarRatings rating={this.props.MAWavgRating} starRatedColor='black' numberOfStars={5} name='rating' starDimension="20px" starSpacing="2px"/>
           <div>Category: {this.props.MAWproductData.category}</div>
           <h2>{this.props.MAWproductData.name}</h2>
-          <Container>
-            <Row>
-              {original_price}
-              {sale_price}
-            </Row>
-          </Container>
+          <div>${this.props.MAWstylesData.results[this.state.styleIndex].original_price}</div>
           <div>Style: {this.props.MAWstylesData.results[this.state.styleIndex].name}</div>
           <Container>
             <Row>
